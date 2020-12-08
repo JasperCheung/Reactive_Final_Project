@@ -13,7 +13,7 @@ import Client from "./Client";
 import './App.css';
 
 const Tech = ({match}) => {
-  return <div>Current Route: {match.params.tech}</div>
+  return <div>Current Route: {match.params.tech}</div>;
 };
 
 
@@ -33,7 +33,8 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
+        <Router>
+
         <div className="App">
           <h1>Welcome to {this.state.title}</h1>
           <nav>
