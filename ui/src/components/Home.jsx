@@ -5,19 +5,19 @@ import {
   Link
 } from 'react-router-dom';
 
-import reactLogo from './images/react.svg';
-import playLogo from './images/play.svg';
-import scalaLogo from './images/scala.svg';
+import reactLogo from '../images/react.svg';
+import playLogo from '../images/play.svg';
+import scalaLogo from '../images/scala.svg';
 import Client from "./Client";
 
-import './App.css';
+import './Home.css';
 
 const Tech = ({match}) => {
   return <div>Current Route: {match.params.tech}</div>;
 };
 
 
-class App extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {title: ''};
@@ -63,4 +63,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Home;
