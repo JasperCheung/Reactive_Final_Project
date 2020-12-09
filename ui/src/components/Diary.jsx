@@ -5,19 +5,21 @@ class Diary extends Component {
   constructor(props) {
     super(props);
     this.state = { message: 'not loaded'};
-  }
 
+
+  }
 
 
   componentDidMount = () => {
-    fetch('api/summary')
+    fetch('/api/cookie')
       .then(response => response.json())
       .then(data =>{ console.log(data);
                      this.setState({
-                       message: "hi"
+                       message: data.content
                      });
                    });
   }
+
   render = () => {
     return (
       <div>

@@ -4,11 +4,14 @@ import './index.css';
 import Home from './components/Home';
 import Diary from './components/Diary';
 import Login from './components/Login';
+import Cookies from 'js-cookie';
+
 
 
 import * as serviceWorker from './serviceWorker';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
+Cookies.set('test', "COOKIE");
 const routing = (
  
   <Router>
