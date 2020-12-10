@@ -12,6 +12,9 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext
 
 
+
+
+
 @Singleton
 class DatabaseController @Inject()(@NamedDatabase("db") diaryDatabase: Database, cc: ControllerComponents) (implicit ec: ExecutionContext) extends AbstractController(cc) {
 
@@ -23,7 +26,7 @@ class DatabaseController @Inject()(@NamedDatabase("db") diaryDatabase: Database,
     //             val resultSet = statement.executeQuery("SELECT * FROM Users")
                 
     //         }
-    //     }
+    //     } 
     // }
     val connection = diaryDatabase.getConnection()
     val statement = connection.createStatement()
@@ -38,10 +41,70 @@ class DatabaseController @Inject()(@NamedDatabase("db") diaryDatabase: Database,
     println(userName)
     Ok(Json.obj("content" -> userName ))
   }
-   def registerGet(username: String, password: String, confirmPassword: String) = Action {request =>
+  
+  def register = Action {request =>
 
-     println(username)
-     println(password)
-     Ok(Json.obj("uid" -> 1 ))
+    val postVals = request.body.asFormUrlEncoded
+    var uid = -1
+    postVals.map{ args =>
+
+      val username = args("username").head
+      val password = args("password").head
+
+      diaryDatabase.withConnection{ conn =>
+        val statement = conn.createStatement()
+        try{
+          val registered = statement.executeUpdate(s"INSERT INTO Users (Username, Hash_password) VALUES ('$username', '$password')")
+        if(registered != 0){
+
+          val resultSet = statement.executeQuery(s"SELECT id FROM Users WHERE Username = '$username'")
+          if(resultSet.next()){
+            uid = resultSet.getInt("id")
+  
+          }
+          
+        }
+        println(registered)
+        }
+        catch{
+          case _: Throwable =>
+        }
+      }
+      
+      println(username)
+      println(password)
+      Ok(Json.obj("success" -> true, "uid" -> uid))
+    }.getOrElse(Ok(Json.obj("success" -> false, "uid" -> -1)))
+
   }
+
+  def login = Action { request =>
+
+    val postVals = request.body.asFormUrlEncoded
+    var uid = -1
+
+    postVals.map { args =>
+      val username = args("username").head
+      val password = args("password").head
+
+      diaryDatabase.withConnection{ conn =>
+        val statement = conn.createStatement()
+        try {
+          val resultSet = statement.executeQuery(s"SELECT id FROM Users WHERE Username = '$username' AND Hash_password = '$password'")
+          if(resultSet.next()){
+            uid = resultSet.getInt("id")
+
+          }
+        }
+        catch{
+          case _: Throwable =>
+        }
+      }
+
+      Ok(Json.obj("success" -> true, "uid" -> uid))
+    }.getOrElse(Ok(Json.obj("success" -> false, "uid" -> -1)))
+
+  }
+
+
 }
