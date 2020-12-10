@@ -11,5 +11,8 @@ GET     /api/summary                controllers.HomeController.appSummary
 # Test cookies
 GET    /api/cookie                  controllers.CookieController.cookieGet
 
+#Test Database
+GET   /api/database                 controllers.DatabaseController.databaseGet
+
 # Serve static assets under public directory
 GET     /*file                      controllers.FrontendController.assetOrDefault(file)

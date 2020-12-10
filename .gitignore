@@ -8,3 +8,9 @@ target
 /RUNNING_PID
 /public
 /null
+/.bloop
+/.metals
+/.vscode
+metals.sbt
+project/.bloop
+project/project/.bloop
