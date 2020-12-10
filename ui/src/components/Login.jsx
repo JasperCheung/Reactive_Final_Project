@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { isAuthenticated, login, register } from '../utilities/auth'
+import { isAuthenticated, login, register } from '../utilities/auth';
+import Cookies from 'js-cookie';
 
 class Login extends Component {
   constructor(props) {
@@ -7,7 +8,7 @@ class Login extends Component {
     this.state = {
       loginErrors: [],
       registerErrors: []
-    }
+    };
   }
 
   inputChanged = (e) => {
@@ -19,7 +20,7 @@ class Login extends Component {
   validInput = (s) => {
     return s && s !== '';
   }
-
+  
   loginHandler = (e) => {
     e.preventDefault();
     if (this.validInput(this.state.usernameL) && this.validInput(this.state.passwordL)) {
@@ -27,7 +28,7 @@ class Login extends Component {
       login(this.state.usernameL, this.state.passwordL)
         .then((res) => {
           if (res.success) {
-            window.location = '/profile';
+            window.location = '/home';
           } else {
             this.setState({loginErrors:[res.warning]});
           }
@@ -54,7 +55,7 @@ class Login extends Component {
       register(this.state.usernameR, this.state.passwordR, this.state.passwordR)
         .then((res) => {
           if (res.success) {
-            window.location = '/profile';
+            window.location = '/home';
           } else {
             this.setState({registerErrors:[res.warning]});
           }
@@ -79,11 +80,15 @@ class Login extends Component {
 
   render = () => {
     if (isAuthenticated()) {
-      window.location = '/profile';
+      window.location = '/home';
     }
 
     return (
       <div className="flex-container">
+        <button
+          onClick={() => { Cookies.set("user_id",1);}}>
+          button  
+        </button>
         <div className="border-right">
           <form onSubmit={this.loginHandler}>
             <table>
@@ -166,6 +171,7 @@ class Login extends Component {
             </table>
           </form>
         </div>
+        
       </div>
       );
   }

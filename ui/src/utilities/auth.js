@@ -26,6 +26,7 @@ export const register = async (username, password, confirmPassword) => {
   return await axios.get('/api/register', {params:{username:username, password:password, confirmPassword:confirmPassword}})
     .then(res => res.data)
     .then(res => {
+      console.log(res.uid);
       if (res.success && !isAuthenticated()) {
         Cookies.set('user_id', res.uid);
         console.log("URRRRRR user_id", res.uid);
