@@ -38,4 +38,10 @@ class DatabaseController @Inject()(@NamedDatabase("db") diaryDatabase: Database,
     println(userName)
     Ok(Json.obj("content" -> userName ))
   }
+   def registerGet(username: String, password: String, confirmPassword: String) = Action {request =>
+
+     println(username)
+     println(password)
+     Ok(Json.obj("uid" -> 1 ))
+  }
 }

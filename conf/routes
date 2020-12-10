@@ -14,5 +14,7 @@ GET    /api/cookie                  controllers.CookieController.cookieGet
 #Test Database
 GET   /api/database                 controllers.DatabaseController.databaseGet
 
+GET   /api/register                 controllers.DatabaseController.registerGet(username: String, password: String, confirmPassword: String)
+
 # Serve static assets under public directory
 GET     /*file                      controllers.FrontendController.assetOrDefault(file)
