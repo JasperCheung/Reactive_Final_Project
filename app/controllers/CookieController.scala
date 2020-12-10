@@ -21,4 +21,5 @@ class CookieController @Inject()(cc: ControllerComponents) extends AbstractContr
     println(cookie)
     Ok(Json.obj("content" -> cookie ))
   }
+
 }
