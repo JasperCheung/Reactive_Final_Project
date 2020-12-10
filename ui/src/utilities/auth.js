@@ -15,6 +15,7 @@ export const login = async (username, password) => {
     .then(res => {
       if (res.success && !isAuthenticated()) {
         Cookies.set('user_id', res.uid);
+        console.log("URRRRRR user_id", res.uid);
       }
       return res;
     });
@@ -27,6 +28,7 @@ export const register = async (username, password, confirmPassword) => {
     .then(res => {
       if (res.success && !isAuthenticated()) {
         Cookies.set('user_id', res.uid);
+        console.log("URRRRRR user_id", res.uid);
       }
       return res;
     });
