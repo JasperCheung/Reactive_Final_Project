@@ -4,7 +4,7 @@ import {getUserId} from '../utilities/auth';
 
 
 
-class Diary extends Component {
+class SingleEntry extends Component {
   constructor(props) {
 
     super(props);
@@ -17,7 +17,7 @@ class Diary extends Component {
 
 
   componentDidMount = () => {
-    // call api/diary/id
+    // call single entry
 
 
   }
@@ -35,4 +35,4 @@ class Diary extends Component {
 
 
 
-export default Diary;
+export default SingleEntry;

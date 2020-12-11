@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import Home from './components/Home';
-import Diary from './components/Diary';
+import SingleEntry from './components/SingleEntry';
+import NewEntry from './components/NewEntry';
 import Login from './components/Login';
 import Logout from './components/Logout';
 
@@ -27,6 +28,7 @@ if (isAuthenticated()) {
         <Link to="/">Landing Page</Link>
       </div>
       <div>
+        <Link to="/new-entry"> New Entry</Link>
         <Link to="/logout">Logout</Link>
       </div>
     </nav>
@@ -54,7 +56,8 @@ const routing = (
     <Route exact path="/login" component={Login} />
     <Route exact path="/logout" component={Logout} />
     <AuthenticatedRoute exact path = "/home" component={Home} />
-    <AuthenticatedRoute exact path="/diary/:id" component={Diary} />
+    <AuthenticatedRoute exact path="/entry/:id" component={SingleEntry} />
+    <AuthenticatedRoute exact path="/new-entry" component={NewEntry} />
   </Router>
 );
 

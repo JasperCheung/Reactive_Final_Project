@@ -25,7 +25,7 @@ POST /api/login                     controllers.DatabaseController.login
 POST /api/createEntry               controllers.DatabaseController.createEntry
 
 +nocsrf
-POST /api/updateentry               controllers.DatabaseController.updateEntry
+POST /api/updateEntry               controllers.DatabaseController.updateEntry
 
 # Serve static assets under public directory
 GET     /*file                      controllers.FrontendController.assetOrDefault(file)

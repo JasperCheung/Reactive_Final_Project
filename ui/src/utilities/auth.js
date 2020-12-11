@@ -1,9 +1,9 @@
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import qs from 'qs'
+import qs from 'qs';
 
-export const getUserId = () => Cookies.get('user_id')
-export const isAuthenticated = () => !!getUserId()
+export const getUserId = () => Cookies.get('user_id');
+export const isAuthenticated = () => !!getUserId();
 
 export const redirectToLogin = () => {
   window.location = '/login';
@@ -11,8 +11,8 @@ export const redirectToLogin = () => {
 
 export const login = async (username, password) => {
   // axios call for login, sets tokens as cookies, returns object {success:bool, warning:"invalid login"}
-  
-  
+
+
   return await axios({
     method: 'post',
     url: '/api/login',

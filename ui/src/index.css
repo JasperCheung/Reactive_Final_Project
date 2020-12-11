@@ -12,6 +12,8 @@ body {
 nav {
   display: flex;
   justify-content: space-between;
+  background: lightgray;
+  margin-bottom: 10px;
 }
 
 nav * {
@@ -87,4 +89,20 @@ td {
   margin: 10px;
   display: flex;
   justify-content: space-between;
+}
+
+
+input {
+    font-family: "Courier New";
+
+}
+
+textarea{
+      min-height: calc(100vh - 220px);
+
+}
+
+NoScroll{
+      min-height: calc(100vh - 50px);
+
 }
