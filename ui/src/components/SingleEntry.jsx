@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {getUserId} from '../utilities/auth';
+import {showDate} from '../utilities/time';
 import Spinner from '../utilities/Spinner';
 
 
@@ -48,9 +49,6 @@ class SingleEntry extends Component {
       });
   }
 
-
-
-
   render = () => {
     if (this.state.loading) return  <Spinner />;
     else{
@@ -58,13 +56,10 @@ class SingleEntry extends Component {
         return (<h1> ERROR</h1>);
       }
       else{
-
-
         return (
-
           <div className='Courier' >
             <h1>
-              Date: {this.state.date}
+              Last Updated: {showDate(this.state.date)}
             </h1>
             <div className='NewEntryForm'>
 

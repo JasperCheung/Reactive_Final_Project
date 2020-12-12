@@ -5,3 +5,9 @@ export const getToday =() => {
   //console.log(now);
   return now;
 };
+
+export const showDate = (dt) =>{
+  //console.log(dt);
+  //console.log(dt.split(" "));
+  return dt.split(" ")[0];
+};
