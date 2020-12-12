@@ -4,6 +4,7 @@ import './index.css';
 import Home from './components/Home';
 import SingleEntry from './components/SingleEntry';
 import NewEntry from './components/NewEntry';
+import EditEntry from './components/EditEntry';
 import Login from './components/Login';
 import Logout from './components/Logout';
 
@@ -25,7 +26,7 @@ if (isAuthenticated()) {
   nav = (
     <nav>
       <div>
-        <Link to="/">Landing Page</Link>
+        <Link to="/home">Home</Link>
       </div>
       <div>
         <Link to="/new-entry"> New Entry</Link>
@@ -55,9 +56,11 @@ const routing = (
     <Route exact path="/" component={LandingPage} />
     <Route exact path="/login" component={Login} />
     <Route exact path="/logout" component={Logout} />
+
     <AuthenticatedRoute exact path = "/home" component={Home} />
     <AuthenticatedRoute exact path="/entry/:id" component={SingleEntry} />
     <AuthenticatedRoute exact path="/new-entry" component={NewEntry} />
+    <AuthenticatedRoute exact path = "/edit-entry/:id" component={EditEntry} />
   </Router>
 );
 

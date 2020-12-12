@@ -25,7 +25,6 @@ class DatabaseController @Inject()(@NamedDatabase("db") diaryDatabase: Database,
     //         diaryDatabase.withConnection{ conn =>
     //             val statement = conn.createStatement()
     //             val resultSet = statement.executeQuery("SELECT * FROM Users")
-
     //         }
     //     }
     // }

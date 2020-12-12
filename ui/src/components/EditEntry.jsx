@@ -4,7 +4,7 @@ import {getUserId} from '../utilities/auth';
 import {getToday} from '../utilities/time';
 import qs from 'qs';
 
-class NewEntry extends Component {
+class EditEntry extends Component {
   constructor(props) {
 
     super(props);
@@ -20,7 +20,7 @@ class NewEntry extends Component {
     e.preventDefault();
     return axios({
       method: 'post',
-      url: '/api/createEntry',
+      url: '/api/updateEntry',
       data: qs.stringify({
         title: this.state.title,
         content: this.state.content,
@@ -58,7 +58,7 @@ class NewEntry extends Component {
   render = () => {
     return (
       <div className='noScroll'>
-        <h1 className='Courier'>
+        <h1>
           Today's Date: {getToday()}
         </h1>
         <div className='NewEntryForm'>
@@ -104,4 +104,4 @@ class NewEntry extends Component {
 
 
 
-export default NewEntry;
+export default EditEntry;

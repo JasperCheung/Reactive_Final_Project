@@ -10,6 +10,7 @@ import play.db.NamedDatabase
 import scala.concurrent.Future
 
 import scala.concurrent.ExecutionContext
+import java.time.LocalDate
 import java.time.LocalDateTime
 import akka.http.javadsl.model.DateTime
 
@@ -58,6 +59,7 @@ class EntryController @Inject()(@NamedDatabase("db") diaryDatabase: Database, cc
     var success = false
 
     val postVals = request.body.asFormUrlEncoded
+    println(postVals)
 
     postVals.map { args =>
       val id = args("id").head
@@ -90,7 +92,33 @@ class EntryController @Inject()(@NamedDatabase("db") diaryDatabase: Database, cc
 
   def getEntry(id: Int) = Action {request =>
     var success = false
-    Ok(Json.obj("success" -> success))
+    val connection = diaryDatabase.getConnection()
+    val statement = connection.createStatement()
+    val resultSet = statement.executeQuery(s"SELECT * FROM Entries WHERE  id = '$id'")
+    var content: String = ""
+    var title: String = ""
+    var timeCreated: String = ""
+    var uid = -1
+
+    if(resultSet.next()){
+      content = resultSet.getString("Content")
+      title = resultSet.getString("Title")
+      timeCreated = resultSet.getString("Time_created")
+      uid = resultSet.getInt("User_id")
+      success = true
+    }
+
+    //println(request)
+    //println("yrrewornweoirnewoirnweoirnewoinr")
+    //println(resultSet)
+    Ok(Json.obj("entry_id" -> id,
+                "title" -> title,
+                "timeCreated" -> timeCreated,
+                "content" -> content,
+                "uid" -> uid,
+                "success" -> success
+       ))
+
   }
 
 }

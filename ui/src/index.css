@@ -97,6 +97,8 @@ input {
 
 }
 
+
+
 textarea{
       min-height: calc(100vh - 220px);
 
@@ -104,5 +106,23 @@ textarea{
 
 NoScroll{
       min-height: calc(100vh - 50px);
+
+}
+
+.Courier{
+    font-family: "Courier New";
+
+}
+
+.content{
+    border-width: 1px;
+    border-style: solid;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
+    padding: 2px;
+    text-align: left;
+    margin: auto;
+    height: calc(100vh - 220px);
+    overflow: auto;
 
 }
