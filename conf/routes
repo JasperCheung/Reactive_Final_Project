@@ -16,16 +16,19 @@ GET   /api/database                 controllers.DatabaseController.databaseGet
 
 
 + nocsrf
-POST /api/register                  controllers.DatabaseController.register
+POST /api/register                  controllers.AuthController.register
 
 +nocsrf
-POST /api/login                     controllers.DatabaseController.login
+POST /api/login                     controllers.AuthController.login
 
 +nocsrf
-POST /api/createEntry               controllers.DatabaseController.createEntry
+POST /api/createEntry               controllers.EntryController.createEntry
 
 +nocsrf
-POST /api/updateEntry               controllers.DatabaseController.updateEntry
+POST /api/updateEntry               controllers.EntryController.updateEntry
+
++nocsrf
+GET /api/getEntry/:id               controllers.EntryController.getEntry(id: Int)
 
 # Serve static assets under public directory
 GET     /*file                      controllers.FrontendController.assetOrDefault(file)
