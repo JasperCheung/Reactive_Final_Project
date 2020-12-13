@@ -17,7 +17,7 @@ import akka.http.javadsl.model.DateTime
 
 
 @Singleton
-class AuthController @Inject()(@NamedDatabase("db") diaryDatabase: Database, cc: ControllerComponents) (implicit ec: ExecutionContext) extends AbstractController(cc) {
+class AuthController @Inject()(@NamedDatabase("db") db: Database, cc: ControllerComponents) (implicit ec: ExecutionContext) extends AbstractController(cc) {
 
   def register = Action {request =>
 
@@ -28,7 +28,7 @@ class AuthController @Inject()(@NamedDatabase("db") diaryDatabase: Database, cc:
       val username = args("username").head
       val password = args("password").head
 
-      diaryDatabase.withConnection{ conn =>
+      db.withConnection{ conn =>
         val statement = conn.createStatement()
         try{
           val registered = statement.executeUpdate(s"INSERT INTO Users (Username, Hash_password) VALUES ('$username', '$password')")
@@ -64,7 +64,7 @@ class AuthController @Inject()(@NamedDatabase("db") diaryDatabase: Database, cc:
       val username = args("username").head
       val password = args("password").head
 
-      diaryDatabase.withConnection{ conn =>
+      db.withConnection{ conn =>
         val statement = conn.createStatement()
         try {
           val resultSet = statement.executeQuery(s"SELECT id FROM Users WHERE Username = '$username' AND Hash_password = '$password'")
