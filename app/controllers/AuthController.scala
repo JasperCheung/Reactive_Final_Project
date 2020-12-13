@@ -56,7 +56,7 @@ class AuthController @Inject()(@NamedDatabase("db") diaryDatabase: Database, cc:
   }
 
   def login = Action { request =>
-
+    var success= false
     val postVals = request.body.asFormUrlEncoded
     var uid = -1
 
@@ -69,6 +69,7 @@ class AuthController @Inject()(@NamedDatabase("db") diaryDatabase: Database, cc:
         try {
           val resultSet = statement.executeQuery(s"SELECT id FROM Users WHERE Username = '$username' AND Hash_password = '$password'")
           if(resultSet.next()){
+            success=true
             uid = resultSet.getInt("id")
 
           }
@@ -77,10 +78,12 @@ class AuthController @Inject()(@NamedDatabase("db") diaryDatabase: Database, cc:
           case _: Throwable =>
         }
       }
-
-
-      Ok(Json.obj("success" -> true, "uid" -> uid))
-    }.getOrElse(Ok(Json.obj("success" -> false, "uid" -> -1)))
+      var warning = ""
+      if(!success){
+         warning = "invalid login!"
+      }
+      Ok(Json.obj("success" -> success, "uid" -> uid,"warning" -> warning))
+    }.getOrElse(Ok(Json.obj("success" -> success, "uid" -> -1, "warning"->"invalid login!")))
 
   }
 

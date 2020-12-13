@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS Entries (
 	id int NOT NULL AUTO_INCREMENT,
     User_id int NOT NULL,
     Title varchar(2048) NOT NULL,
-    Content varchar(2048) NOT NULL,
+    Content text NOT NULL,
 	Time_created DATETIME NOT NULL,
     primary key (id),
     foreign key (User_id) REFERENCES Users(id)

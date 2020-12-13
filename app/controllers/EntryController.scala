@@ -62,6 +62,7 @@ class EntryController @Inject()(@NamedDatabase("db") diaryDatabase: Database, cc
     println(postVals)
 
     postVals.map { args =>
+      println("post",args)
       val id = args("id").head
       val content = args("content").head
       val dateTime = DateTime.now()

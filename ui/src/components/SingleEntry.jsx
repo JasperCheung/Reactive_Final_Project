@@ -10,21 +10,20 @@ class SingleEntry extends Component {
   constructor(props) {
 
     super(props);
-    this.state = { loading: true,
-                   entry_id: this.props.match.params.id,
-                   user_id: getUserId(),
-                   content: "",
-                   date: "",
-                   title: "",
-                   success: false,
-                 };
-
-
+    this.state = {
+      loading: true,
+      entry_id: this.props.match.params.id,
+      user_id: getUserId(),
+      content: "",
+      date: "",
+      title: "",
+      success: false,
+    };
   }
 
 
   componentDidMount = () => {
-    console.log("hi");
+    console.log("Single Entry Mounted");
     axios.get(`/api/getEntry/${this.props.match.params.id}`)
       .then(res => res.data)
       .then(res => {
