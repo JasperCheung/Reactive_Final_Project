@@ -32,8 +32,13 @@ class EditEntry extends Component {
         'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
       }
     }).then(window.location = '/home');
+  }
 
 
+  handleDelete = (e) => {
+    e.preventDefault();
+    // TODO: Call Delete
+    console.log("DELETE");
   }
 
   handleChange = (e) => {
@@ -120,6 +125,9 @@ class EditEntry extends Component {
               <button className='button' type='submit'>
                 Edit
               </button>
+              <button className='button' onClick={this.handleDelete}>
+              Delete
+            </button>
             </form>
           </div>
 

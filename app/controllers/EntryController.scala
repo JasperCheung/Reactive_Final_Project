@@ -131,20 +131,20 @@ class EntryController @Inject()(@NamedDatabase("db") db: Database, cc: Controlle
   }
 
   def getAllEntries() = Action { request =>
-    //val uid = request.cookies.get("uid")
-    val uid = 9
+    val uid = request.cookies.get("user_id").get.value
+    //val uid = 9
+    println(uid)
     var completeSet = Json.obj()
     db.withConnection{ conn =>
       val statement = conn.createStatement()
-      val resultSet = statement.executeQuery(s"SELECT * FROM Entries WHERE User_id = '$uid' ")
+      val resultSet = statement.executeQuery(s"SELECT * FROM Entries WHERE User_id = '$uid' ORDER BY Time_created desc")
       var i : Int = 1
       while(resultSet.next()){
-        var result = Json.obj("id" -> resultSet.getInt("id"), 
-                              "title" -> resultSet.getString("Title"), 
-                              "content" -> resultSet.getString("Content"), 
+        var result = Json.obj("id" -> resultSet.getInt("id"),
+                              "title" -> resultSet.getString("Title"),
                               "timeCreated" -> resultSet.getString("Time_created")
                               )
-        println(result.toString()) 
+        println(result.toString())
         completeSet += (s"$i" -> result)
         i += 1
       }

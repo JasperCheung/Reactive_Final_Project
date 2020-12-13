@@ -126,3 +126,23 @@ NoScroll{
     overflow: auto;
 
 }
+
+.home-content
+{
+    min-height: 0px;
+}
+
+.entry-card{
+    width: 900px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
+    margin: auto;
+    margin-bottom: 5px;
+    text-align:left;
+    display: flex;
+    justify-content: space-between;
+
+
+}

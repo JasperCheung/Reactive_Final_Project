@@ -11,3 +11,13 @@ export const showDate = (dt) =>{
   //console.log(dt.split(" "));
   return dt.split(" ")[0];
 };
+
+export const convertToArr = (entries) => {
+  // [{title,date,id}]
+  let ret = [];
+  for (let key in entries){
+    ret.push(entries[key]);
+  }
+  return ret;
+
+};

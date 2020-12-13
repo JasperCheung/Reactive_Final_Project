@@ -21,6 +21,12 @@ class SingleEntry extends Component {
     };
   }
 
+  handleDelete = (e) => {
+    e.preventDefault();
+    // TODO: Call Delete
+    console.log("DELETE");
+  }
+
 
   componentDidMount = () => {
     console.log("Single Entry Mounted");
@@ -47,6 +53,8 @@ class SingleEntry extends Component {
 
       });
   }
+
+
 
   render = () => {
     if (this.state.loading) return  <Spinner />;
@@ -88,7 +96,12 @@ class SingleEntry extends Component {
               </div>
 
 
+
             </div>
+            <button className='button' onClick={this.handleDelete}>
+              Delete
+            </button>
+
 
 
           </div>

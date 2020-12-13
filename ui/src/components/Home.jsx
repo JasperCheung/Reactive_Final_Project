@@ -1,66 +1,147 @@
 import React, {Component} from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom';
-
-import reactLogo from '../images/react.svg';
-import playLogo from '../images/play.svg';
-import scalaLogo from '../images/scala.svg';
-import Client from "./Client";
-
+import axios from 'axios';
+import {getUserId} from '../utilities/auth';
+import {getToday, convertToArr,showDate} from '../utilities/time';
+import qs from 'qs';
 import './Home.css';
 
-const Tech = ({match}) => {
-  return <div>Current Route: {match.params.tech}</div>;
-};
-
-
 class Home extends Component {
+
   constructor(props) {
     super(props);
-    this.state = {title: ''};
+    this.state = {
+      user_id: getUserId(),
+      title: '',
+      content:'',
+      entries: []
+    };
   }
 
-  async componentDidMount() {
-    Client.getSummary(summary => {
-      this.setState({
-        title: summary.content
+  getAllEntries = () =>{
+    axios.get("/api/getAllEntries")
+      .then(res => res.data)
+      .then(res => {
+        this.setState({entries: convertToArr(res)});
+        console.log(this.state.entries);
       });
+  }
+
+  componentDidMount = () => {
+    this.getAllEntries();
+
+  }
+
+
+  handleChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+
+    switch (name) {
+    case 'title':
+      this.setState({title:value});
+
+      break;
+    case 'content':
+      this.setState({content:value});
+      break;
+    default:
+      break;
+    }
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    return axios({
+      method: 'post',
+      url: '/api/createEntry',
+      data: qs.stringify({
+        title: this.state.title,
+        content: this.state.content,
+        uid: this.state.user_id
+      }),
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+      }
+    }).then((res)=>{
+      this.getAllEntries();
     });
   }
 
+  handleEdit = (id) =>{
+   window.location = `/edit-entry/${id}`;
+  }
+
+  handleDelete = (index,id) =>{
+    console.log(index,id);
+    let deleteE = this.state.entries;
+    deleteE.splice(index,1);
+    this.setState({entries:deleteE});
+    console.log(deleteE);
+    // TODO: CALL DELETE
+
+  }
   render() {
     return (
-        <Router>
 
-        <div className="App">
-          <h1>Welcome to {this.state.title}</h1>
-          <nav>
-            <Link to="scala">
-              <img width="400" height="400" src={scalaLogo} alt="Scala Logo"/>
-            </Link>
-            <Link to="play">
-              <img width="400" height="400" src={playLogo} alt="Play Framework Logo"/>
-            </Link>
-            <Link to="react">
-              <img width="400" height="400" src={reactLogo} alt="React Logo"/>
-            </Link>
-          </nav>
-          <Route path="/:tech" component={Tech}/>
-          <div>
-            <h2>Check out the project on GitHub for more information</h2>
-            <h3>
-              <a target="_blank" rel="noopener noreferrer" href="https://github.com/yohangz/scala-play-react-seed">
-                scala-play-react-seed
-              </a>
-            </h3>
-          </div>
+      <div className="Courier">
+        <h1 className='Courier'>
+          Home: {getToday()}
+        </h1>
+        <div className='NewEntryForm'>
+          <form id='contact-form' onSubmit={this.handleSubmit} noValidate>
+            <div className='row'>
+              <div className='col-6'>
+                <input
+                  type='text'
+                  name='title'
+                  value={this.state.title}
+                  className='name-form'
+                  onChange={this.handleChange}
+                  placeholder='Title'
+                  style={{width:"900px",fontSize: "25px"}}
+                  noValidate
+                ></input>
+              </div>
+              <div className='col-6'>
+                <textarea
+                  rows='5'
+                  name='content'
+                  value={this.state.message}
+                  className='home-content'
+                  onChange={this.handleChange}
+                  placeholder='Today I ...'
+                  noValidate
+                  style={{width:"900px",fontSize: "16px"}}
+                ></textarea>
+              </div>
+            </div>
+            <button className='button' type='submit'>
+              Submit
+            </button>
+          </form>
         </div>
-      </Router>
+        <h1> Your Diaries </h1>
+        {this.state.entries.map((entry,index) => (
+          <div className='entry-card' key={index}>
+            <div>
+              {showDate(entry.timeCreated)}
+            </div>
+            <div>{entry.title}
+            </div>
+            <div style={{"display":"flex"}}>
+              <div style={{"marginRight":"10px"}} onClick={() => this.handleEdit(entry["id"])}>edit </div>
+              <div onClick={() => this.handleDelete(index, entry["id"])}> delete </div>
+            </div>
+          </div>
+        ))}
+
+      </div>
     );
   }
 }
+
+
+
+
 
 export default Home;
