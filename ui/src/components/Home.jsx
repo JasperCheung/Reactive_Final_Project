@@ -80,6 +80,7 @@ class Home extends Component {
     // TODO: CALL DELETE
 
   }
+
   render() {
     return (
 
@@ -126,8 +127,8 @@ class Home extends Component {
             <div>
               {showDate(entry.timeCreated)}
             </div>
-            <div>{entry.title}
-            </div>
+            <a href={`entry/${entry.id}`}>{entry.title}
+            </a>
             <div style={{"display":"flex"}}>
               <div style={{"marginRight":"10px"}} onClick={() => this.handleEdit(entry["id"])}>edit </div>
               <div onClick={() => this.handleDelete(index, entry["id"])}> delete </div>
