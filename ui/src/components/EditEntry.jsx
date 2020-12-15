@@ -137,7 +137,7 @@ class EditEntry extends Component {
                 </div>
               </div>
               <button className='button' type='submit'>
-                Edit
+                Submit
               </button>
               <button className='button' onClick={this.handleDelete}>
               Delete

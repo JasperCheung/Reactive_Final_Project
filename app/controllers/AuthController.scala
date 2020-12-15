@@ -19,72 +19,73 @@ import akka.http.javadsl.model.DateTime
 @Singleton
 class AuthController @Inject()(@NamedDatabase("db") db: Database, cc: ControllerComponents) (implicit ec: ExecutionContext) extends AbstractController(cc) {
 
-  def register = Action {request =>
+  def register = Action.async {request =>
+    Future {
+      val postVals = request.body.asFormUrlEncoded
+      var uid = -1
+      postVals.map{ args =>
 
-    val postVals = request.body.asFormUrlEncoded
-    var uid = -1
-    postVals.map{ args =>
+        val username = args("username").head
+        val password = args("password").head
 
-      val username = args("username").head
-      val password = args("password").head
+        db.withConnection{ conn =>
+          val statement = conn.createStatement()
+          try{
+            val registered = statement.executeUpdate(s"INSERT INTO Users (Username, Hash_password) VALUES ('$username', '$password')")
+          if(registered != 0){
 
-      db.withConnection{ conn =>
-        val statement = conn.createStatement()
-        try{
-          val registered = statement.executeUpdate(s"INSERT INTO Users (Username, Hash_password) VALUES ('$username', '$password')")
-        if(registered != 0){
+            val resultSet = statement.executeQuery(s"SELECT id FROM Users WHERE Username = '$username'")
+            if(resultSet.next()){
+              uid = resultSet.getInt("id")
 
-          val resultSet = statement.executeQuery(s"SELECT id FROM Users WHERE Username = '$username'")
-          if(resultSet.next()){
-            uid = resultSet.getInt("id")
+            }
 
           }
+          println(registered)
+          }
+          catch{
+            case _: Throwable =>
+          }
+        }
 
-        }
-        println(registered)
-        }
-        catch{
-          case _: Throwable =>
-        }
+        println(username)
+        println(password)
+        Ok(Json.obj("success" -> true, "uid" -> uid))
+      }.getOrElse(Ok(Json.obj("success" -> false, "uid" -> -1)))
       }
-
-      println(username)
-      println(password)
-      Ok(Json.obj("success" -> true, "uid" -> uid))
-    }.getOrElse(Ok(Json.obj("success" -> false, "uid" -> -1)))
-
   }
 
-  def login = Action { request =>
-    var success= false
-    val postVals = request.body.asFormUrlEncoded
-    var uid = -1
+  def login = Action.async { request =>
+    Future{
+      var success= false
+      val postVals = request.body.asFormUrlEncoded
+      var uid = -1
 
-    postVals.map { args =>
-      val username = args("username").head
-      val password = args("password").head
+      postVals.map { args =>
+        val username = args("username").head
+        val password = args("password").head
 
-      db.withConnection{ conn =>
-        val statement = conn.createStatement()
-        try {
-          val resultSet = statement.executeQuery(s"SELECT id FROM Users WHERE Username = '$username' AND Hash_password = '$password'")
-          if(resultSet.next()){
-            success=true
-            uid = resultSet.getInt("id")
+        db.withConnection{ conn =>
+          val statement = conn.createStatement()
+          try {
+            val resultSet = statement.executeQuery(s"SELECT id FROM Users WHERE Username = '$username' AND Hash_password = '$password'")
+            if(resultSet.next()){
+              success=true
+              uid = resultSet.getInt("id")
 
+            }
+          }
+          catch{
+            case _: Throwable =>
           }
         }
-        catch{
-          case _: Throwable =>
+        var warning = ""
+        if(!success){
+          warning = "invalid login!"
         }
-      }
-      var warning = ""
-      if(!success){
-         warning = "invalid login!"
-      }
-      Ok(Json.obj("success" -> success, "uid" -> uid,"warning" -> warning))
-    }.getOrElse(Ok(Json.obj("success" -> success, "uid" -> -1, "warning"->"invalid login!")))
-
+        Ok(Json.obj("success" -> success, "uid" -> uid,"warning" -> warning))
+      }.getOrElse(Ok(Json.obj("success" -> success, "uid" -> -1, "warning"->"invalid login!")))
+    }
   }
 
 }

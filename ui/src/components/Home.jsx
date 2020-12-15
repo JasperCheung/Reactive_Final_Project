@@ -76,6 +76,7 @@ class Home extends Component {
         'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
       }
     }).then((res)=>{
+      this.setState({title: "", content: ""})
       this.getAllEntries();
     });
   }
@@ -121,7 +122,7 @@ class Home extends Component {
                 <textarea
                   rows='5'
                   name='content'
-                  value={this.state.message}
+                  value={this.state.content}
                   className='home-content'
                   onChange={this.handleChange}
                   placeholder='Today I ...'
@@ -144,8 +145,8 @@ class Home extends Component {
             <a href={`entry/${entry.id}`}>{entry.title}
             </a>
             <div style={{"display":"flex"}}>
-              <div style={{"marginRight":"10px"}} onClick={() => this.handleEdit(entry["id"])}>edit </div>
-              <div onClick={() => this.handleDelete(index, entry["id"])}> delete </div>
+              <button style={{"marginRight":"10px"}} onClick={() => this.handleEdit(entry["id"])}>edit </button>
+              <button onClick={() => this.handleDelete(index, entry["id"])}> delete </button>
             </div>
           </div>
         ))}
