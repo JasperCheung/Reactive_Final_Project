@@ -30,9 +30,13 @@ POST /api/updateEntry               controllers.EntryController.updateEntry
 +nocsrf
 GET /api/getEntry/:id               controllers.EntryController.getEntry(id: Int)
 
++ nocsrf
+DELETE /api/deleteEntry              controllers.EntryController.deleteEntry
 
 +nocsrf
 GET /api/getAllEntries              controllers.EntryController.getAllEntries
+
+
 
 # Serve static assets under public directory
 GET     /*file                      controllers.FrontendController.assetOrDefault(file)

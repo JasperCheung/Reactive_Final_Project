@@ -26,6 +26,19 @@ class Home extends Component {
       });
   }
 
+  deleteEntryCall = (id) => {
+    return axios({
+      method: 'delete',
+      url: '/api/deleteEntry',
+      data: qs.stringify({
+        id: id
+      }),
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+      }
+    });
+  }
+
   componentDidMount = () => {
     this.getAllEntries();
 
@@ -77,7 +90,8 @@ class Home extends Component {
     deleteE.splice(index,1);
     this.setState({entries:deleteE});
     console.log(deleteE);
-    // TODO: CALL DELETE
+    this.deleteEntryCall(id);
+
 
   }
 

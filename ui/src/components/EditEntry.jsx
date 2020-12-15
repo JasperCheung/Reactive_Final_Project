@@ -19,6 +19,20 @@ class EditEntry extends Component {
 
   }
 
+
+  deleteEntryCall = (id) => {
+    return axios({
+      method: 'delete',
+      url: '/api/deleteEntry',
+      data: qs.stringify({
+        id: id
+      }),
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+      }
+    });
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     return axios({
@@ -37,8 +51,8 @@ class EditEntry extends Component {
 
   handleDelete = (e) => {
     e.preventDefault();
-    // TODO: Call Delete
     console.log("DELETE");
+    this.deleteEntryCall(this.state.entry_id).then(window.location='/home');
   }
 
   handleChange = (e) => {

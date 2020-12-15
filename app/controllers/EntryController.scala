@@ -155,4 +155,33 @@ class EntryController @Inject()(@NamedDatabase("db") db: Database, cc: Controlle
 
   }
 
+  def deleteEntry = Action {request =>
+    var success = false
+
+    val postVals = request.body.asFormUrlEncoded
+    println(postVals)
+
+    postVals.map { args =>
+      println("post",args)
+      val id = args("id").head
+
+      db.withConnection{ conn =>
+      val statement = conn.createStatement()
+
+      try {
+        val diaryUpdated = statement.executeUpdate(s"DELETE from Entries WHERE  id = '$id'")
+
+        if(diaryUpdated != 0){
+          success = true
+        }
+      }
+      catch{
+        case _: Throwable =>
+      }
+    }
+    Ok(Json.obj("success" -> success))
+    }.getOrElse( Ok(Json.obj("success" -> success)))
+
+  }
+
 }

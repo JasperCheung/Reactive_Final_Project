@@ -3,6 +3,7 @@ import axios from 'axios';
 import {getUserId} from '../utilities/auth';
 import {showDate} from '../utilities/time';
 import Spinner from '../utilities/Spinner';
+import qs from 'qs';
 
 
 
@@ -21,11 +22,26 @@ class SingleEntry extends Component {
     };
   }
 
+  deleteEntryCall = (id) => {
+    return axios({
+      method: 'delete',
+      url: '/api/deleteEntry',
+      data: qs.stringify({
+        id: id
+      }),
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+      }
+    });
+  }
+
   handleDelete = (e) => {
     e.preventDefault();
-    // TODO: Call Delete
     console.log("DELETE");
+    this.deleteEntryCall(this.state.entry_id).then(window.location='/home');
   }
+
+
 
 
   componentDidMount = () => {
