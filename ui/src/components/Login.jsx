@@ -85,10 +85,6 @@ class Login extends Component {
 
     return (
       <div className="flex-container">
-        <button
-          onClick={() => { Cookies.set("user_id",1);}}>
-          button  
-        </button>
         <div className="border-right">
           <form onSubmit={this.loginHandler}>
             <table>
